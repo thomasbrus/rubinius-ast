@@ -1,7 +1,18 @@
-require "rubinius/ast/version"
+# -*- encoding: us-ascii -*-
 
-module Rubinius
-  module Ast
-    # Your code goes here...
-  end
-end
+require "rubinius/ast/node"
+require "rubinius/ast/self"
+require "rubinius/ast/constants"
+require "rubinius/ast/control_flow"
+require "rubinius/ast/data"
+require "rubinius/ast/definitions"
+require "rubinius/ast/encoding"
+require "rubinius/ast/exceptions"
+require "rubinius/ast/file"
+require "rubinius/ast/grapher"
+require "rubinius/ast/literals"
+require "rubinius/ast/operators"
+require "rubinius/ast/sends"
+require "rubinius/ast/values"
+require "rubinius/ast/variables"
+require "rubinius/ast/transforms"
