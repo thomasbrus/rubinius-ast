@@ -1,4 +1,4 @@
-require "rubinius-ast/version"
+require "rubinius/ast/version"
 
 module Rubinius
   module Ast
