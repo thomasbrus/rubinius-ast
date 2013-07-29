@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   module AST
     class EndData < Node
       attr_accessor :data

@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   module AST
     class Send < Node
       attr_accessor :receiver, :name, :privately, :block, :variable, :vcall_style

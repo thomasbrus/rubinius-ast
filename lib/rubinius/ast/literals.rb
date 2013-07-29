@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   module AST
     class ArrayLiteral < Node
       attr_accessor :body
