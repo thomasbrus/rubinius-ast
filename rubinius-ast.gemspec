@@ -3,7 +3,7 @@ require 'rubinius/ast/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "rubinius-ast"
-  spec.version       = Rubinius::Ast::VERSION
+  spec.version       = Rubinius::ToolSet.current::TS::AST::VERSION
   spec.authors       = ["Brian Shirai"]
   spec.email         = ["brixen@gmail.com"]
   spec.description   = %q{An Abstract Syntax Tree for Ruby.}
