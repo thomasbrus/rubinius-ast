@@ -434,27 +434,8 @@ module Rubinius::ToolSet.current::TS
       end
 
       def defined(g)
-        unless Rubinius.ruby18?
-          g.push_literal "expression"
-          g.string_dup
-          return
-        end
-
-        f = g.new_label
-        done = g.new_label
-
-        @array.each do |x|
-          x.value_defined(g, f)
-          g.pop
-        end
-
         g.push_literal "expression"
-        g.goto done
-
-        f.set!
-        g.push :nil
-
-        done.set!
+        g.string_dup
       end
 
       def sexp_name

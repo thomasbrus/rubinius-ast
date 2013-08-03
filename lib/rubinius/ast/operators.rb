@@ -28,41 +28,8 @@ module Rubinius::ToolSet.current::TS
       end
 
       def defined(g)
-        unless Rubinius.ruby18?
-          g.push_literal "expression"
-          g.string_dup
-          return
-        end
-
-        t = g.new_label
-        f = g.new_label
-        done = g.new_label
-
-        case @left
-        when GlobalVariableAccess, InstanceVariableAccess
-          g.goto t
-        else
-          @left.value_defined(g, f)
-          g.pop
-        end
-
-        case @right
-        when GlobalVariableAccess, InstanceVariableAccess
-          g.goto t
-        else
-          @right.value_defined(g, f)
-          g.pop
-        end
-
-        t.set!
         g.push_literal "expression"
         g.string_dup
-        g.goto done
-
-        f.set!
-        g.push :nil
-
-        done.set!
       end
 
       def sexp_name
