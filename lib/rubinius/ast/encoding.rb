@@ -13,7 +13,7 @@ module Rubinius::ToolSet.current::TS
       def bytecode(g)
         pos(g)
 
-        g.push_literal Rubinius::Compiler::Runtime
+        g.push_literal Compiler::Runtime
         g.push_literal @name
         g.send :get_encoding, 1
       end
