@@ -259,7 +259,7 @@ module Rubinius::ToolSet.current::TS
         g.push_state ClosedScope.new(@line)
         g.state.push_name :BEGIN
 
-        g.push_literal Rubinius::Compiler::Runtime
+        g.push_literal Compiler::Runtime
         @block.bytecode(g)
         g.send_with_block :pre_exe, 0, false
 
@@ -827,7 +827,7 @@ module Rubinius::ToolSet.current::TS
 
       def bytecode(g)
         if @splat
-          g.push_literal Rubinius::Compiler::Runtime
+          g.push_literal Compiler::Runtime
           g.push_local 0
           g.send :unwrap_block_arg, 1
         else

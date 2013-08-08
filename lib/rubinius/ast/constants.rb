@@ -204,7 +204,7 @@ module Rubinius::ToolSet.current::TS
         pos(g)
 
         if g.state.op_asgn?
-          g.push_literal Rubinius::Compiler::Runtime
+          g.push_literal Compiler::Runtime
           g.push_literal @name
           g.push_scope
           g.send :find_constant_for_op_asign_or, 2
