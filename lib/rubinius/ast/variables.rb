@@ -45,11 +45,7 @@ module Rubinius::ToolSet.current::TS
         g.is_nil
         g.git f
 
-        if Rubinius.ruby18?
-          g.push_literal "$#{@kind}"
-        else
-          g.push_literal "global-variable"
-        end
+        g.push_literal "$#{@kind}"
         g.string_dup
 
         g.goto done
@@ -91,11 +87,7 @@ module Rubinius::ToolSet.current::TS
         g.is_nil
         g.git f
 
-        if Rubinius.ruby18?
-          g.push_literal "$#{@which}"
-        else
-          g.push_literal "global-variable"
-        end
+        g.push_literal "$#{@which}"
         g.string_dup
 
         g.goto done
@@ -559,17 +551,7 @@ module Rubinius::ToolSet.current::TS
         @block = nil # support for |&b|
         @post = nil # in `a,*b,c`, c is in post.
 
-        if Rubinius.ruby18?
-          @fixed = right.kind_of?(ArrayLiteral) ? true : false
-        elsif splat.kind_of?(PostArg)
-          @fixed = false
-          @post = splat.rest
-          splat = splat.into
-        elsif right.kind_of?(ArrayLiteral)
-          @fixed = right.body.size > 1
-        else
-          @fixed = false
-        end
+        @fixed = right.kind_of?(ArrayLiteral) ? true : false
 
         if splat.kind_of? Node
           if @left

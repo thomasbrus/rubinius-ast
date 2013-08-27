@@ -446,12 +446,6 @@ module Rubinius::ToolSet.current::TS
       end
 
       def defined(g)
-        unless Rubinius.ruby18?
-          g.push_literal "expression"
-          g.string_dup
-          return
-        end
-
         f = g.new_label
         done = g.new_label
 
