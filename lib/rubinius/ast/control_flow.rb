@@ -28,7 +28,7 @@ module Rubinius::ToolSet.current::TS
         done.set!
       end
 
-      def defined?(g)
+      def defined(g)
         g.push_literal "expression"
       end
 
@@ -332,7 +332,7 @@ module Rubinius::ToolSet.current::TS
         done.set!
       end
 
-      def defined?(g)
+      def defined(g)
         g.push_literal "expression"
       end
 
@@ -413,7 +413,7 @@ module Rubinius::ToolSet.current::TS
         g.pop_modifiers
       end
 
-      def defined?(g)
+      def defined(g)
         g.push_literal "expression"
       end
 
