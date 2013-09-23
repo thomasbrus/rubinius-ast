@@ -15,7 +15,8 @@ module Rubinius::ToolSet.current::TS
       end
 
       def defined(g)
-        g.push_literal "expression"
+        return @rescue.defined(g) if @rescue
+        g.push_literal "nil"
       end
 
       def to_sexp
@@ -350,6 +351,11 @@ module Rubinius::ToolSet.current::TS
           g.restore_exception_state
         end
         g.pop_modifiers
+      end
+
+      def defined(g)
+        @body.defined(g) if @body
+        g.push_literal "nil"
       end
 
       def to_sexp
