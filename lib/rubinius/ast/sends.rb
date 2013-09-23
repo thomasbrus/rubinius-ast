@@ -65,6 +65,11 @@ module Rubinius::ToolSet.current::TS
       end
 
       def defined(g)
+        if @block.kind_of? For
+          @block.defined(g)
+          return
+        end
+
         if @vcall_style and check_local_reference(g)
           g.push_literal "local-variable"
           return
@@ -801,6 +806,10 @@ module Rubinius::ToolSet.current::TS
         end
 
         var.variable = reference
+      end
+
+      def defined(g)
+        g.push_literal "expression"
       end
 
       def sexp_name
