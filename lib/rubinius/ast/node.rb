@@ -272,6 +272,7 @@ module Rubinius::ToolSet.current::TS
       def initialize(scope)
         @scope = scope
         @ensure = 0
+        @inside_ensure = 0
         @block = 0
         @masgn = 0
         @loop = 0
@@ -315,6 +316,18 @@ module Rubinius::ToolSet.current::TS
 
       def ensure?
         @ensure > 0
+      end
+
+      def push_inside_ensure
+        @inside_ensure += 1
+      end
+
+      def pop_inside_ensure
+        @inside_ensure -= 1 if inside_ensure?
+      end
+
+      def inside_ensure?
+        @inside_ensure > 0
       end
 
       def push_block

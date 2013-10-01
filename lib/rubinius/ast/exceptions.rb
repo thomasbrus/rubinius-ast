@@ -104,6 +104,7 @@ module Rubinius::ToolSet.current::TS
 
         g.push_exception_state
 
+        g.state.push_inside_ensure
         g.state.push_rescue(outer_exc_state)
         @ensure.bytecode(g)
         g.state.pop_rescue
@@ -165,6 +166,7 @@ module Rubinius::ToolSet.current::TS
           g.next ? g.goto(g.next) : g.ret
           post.set!
         end
+        g.state.pop_inside_ensure
       end
 
       def to_sexp

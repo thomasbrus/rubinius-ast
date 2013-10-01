@@ -551,6 +551,8 @@ module Rubinius::ToolSet.current::TS
       def bytecode(g)
         pos(g)
 
+        g.pop if g.state.inside_ensure?
+
         @value.bytecode(g)
 
         if g.break
@@ -561,6 +563,8 @@ module Rubinius::ToolSet.current::TS
           g.pop
           jump_error g, :break
         end
+
+        g.push_nil if g.state.inside_ensure?
       end
 
       def defined(g)
@@ -586,6 +590,8 @@ module Rubinius::ToolSet.current::TS
 
       def bytecode(g)
         pos(g)
+
+        g.pop if g.state.inside_ensure?
 
         # From "The Ruby Programming Lanuage"
         #  "When next is used in a loop, any values following the next
@@ -613,6 +619,8 @@ module Rubinius::ToolSet.current::TS
 
           jump_error g, :next
         end
+
+        g.push_nil if g.state.inside_ensure?
       end
 
       def sexp_name
