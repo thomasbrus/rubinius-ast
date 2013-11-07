@@ -272,6 +272,7 @@ module Rubinius::ToolSet.current::TS
       def initialize(scope)
         @scope = scope
         @ensure = 0
+        @ensure_level = nil
         @block = 0
         @masgn = 0
         @loop = 0
