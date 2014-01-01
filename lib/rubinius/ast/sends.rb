@@ -1000,7 +1000,14 @@ module Rubinius::ToolSet.current::TS
       end
 
       def to_sexp
-        arguments_sexp :yield
+        args = @arguments.to_sexp
+        args << @block.to_sexp if @block
+        if @argument_count == 1 and !@yield_splat and @arguments.splat.nil? and
+           @arguments.array.first.kind_of? SplatValue
+          [:yield, [:array] + args]
+        else
+          [:yield] + args
+        end
       end
     end
 
