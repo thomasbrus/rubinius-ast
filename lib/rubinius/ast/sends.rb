@@ -109,7 +109,7 @@ module Rubinius::ToolSet.current::TS
 
       def arguments_sexp
         sexp = [:arglist]
-        sexp << @block.to_sexp if @block.kind_of? BlockPass
+        sexp << @block.to_sexp if @block
         sexp
       end
 
@@ -118,8 +118,6 @@ module Rubinius::ToolSet.current::TS
         case @block
         when For
           @block.to_sexp.insert 1, @receiver.to_sexp
-        when Iter
-          @block.to_sexp.insert 1, sexp
         else
           sexp
         end
