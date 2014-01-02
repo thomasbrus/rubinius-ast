@@ -108,8 +108,6 @@ module Rubinius::ToolSet.current::TS
       end
 
       def arguments_sexp
-        return nil if @vcall_style
-
         sexp = [:arglist]
         sexp << @block.to_sexp if @block.kind_of? BlockPass
         sexp
