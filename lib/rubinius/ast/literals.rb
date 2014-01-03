@@ -499,6 +499,12 @@ module Rubinius::ToolSet.current::TS
       def sexp_name
         :dregx
       end
+
+      def to_sexp
+        sexp = super
+        sexp << @options if @options != 0
+        sexp
+      end
     end
 
     class DynamicOnceRegex < DynamicRegex
