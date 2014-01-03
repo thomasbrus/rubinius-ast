@@ -114,12 +114,13 @@ module Rubinius::ToolSet.current::TS
       end
 
       def to_sexp
-        sexp = [sexp_name, receiver_sexp, @name, arguments_sexp]
         case @block
         when For
-          @block.to_sexp.insert 1, @receiver.to_sexp
+          n, x, b = @block.to_sexp
+          xs = @receiver.to_sexp
+          [n, x, xs, b]
         else
-          sexp
+          [sexp_name, receiver_sexp, @name, arguments_sexp]
         end
       end
     end
@@ -858,6 +859,10 @@ module Rubinius::ToolSet.current::TS
 
       def splat_index
         @splat
+      end
+
+      def to_sexp
+        @arguments.to_sexp
       end
     end
 
