@@ -356,7 +356,7 @@ module Rubinius::ToolSet.current::TS
       end
 
       def to_sexp
-        [:splat_assign, @value.to_sexp]
+        @value.to_sexp
       end
     end
 
@@ -376,7 +376,7 @@ module Rubinius::ToolSet.current::TS
       end
 
       def to_sexp
-        [:splat, @value.to_sexp]
+        @value.to_sexp
       end
     end
 
@@ -399,7 +399,7 @@ module Rubinius::ToolSet.current::TS
       end
 
       def to_sexp
-        [:splat, @value.to_sexp]
+        @value.to_sexp
       end
     end
 
@@ -733,7 +733,13 @@ module Rubinius::ToolSet.current::TS
 
       def to_sexp
         left = @left ? @left.to_sexp : [:array]
-        left << [:splat, @splat.to_sexp] if @splat
+        case @splat
+        when EmptySplat
+          left << [:splat]
+        when nil
+        else
+          left << [:splat, @splat.to_sexp]
+        end
         left << @block.to_sexp if @block
 
         sexp = [:masgn, left]
