@@ -392,7 +392,7 @@ module Rubinius::ToolSet.current::TS
         case body
         when Block
           @assignment = body.array.shift if assignment? body.array.first
-          @body = body
+          @body = body.array.size == 1 ? body.array.first : body
         when nil
           @body = NilLiteral.new line
         else
@@ -510,11 +510,18 @@ module Rubinius::ToolSet.current::TS
       end
 
       def to_sexp
-        array = @conditions.to_sexp
-        array << @assignment.to_sexp if @assignment
-        array << @splat.to_sexp if @splat
+        sexp = [:resbody]
 
-        sexp = [:resbody, array]
+        if @conditions
+          array = @conditions.to_sexp
+          sexp << array
+        else
+          array = sexp
+        end
+
+        array << @splat.to_sexp if @splat
+        array << @assignment.to_sexp if @assignment
+
         case @body
         when Block
           sexp << (@body ? @body.array.map { |x| x.to_sexp } : nil)
