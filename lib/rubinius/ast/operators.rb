@@ -221,7 +221,14 @@ module Rubinius::ToolSet.current::TS
 
       def to_sexp
         arguments = [:arglist] + @arguments.to_sexp
-        op = @op == :or ? :"||" : :"&&"
+        case @op
+        when :or
+          op = :"||"
+        when :and
+          op = :"&&"
+        else
+          op = @op
+        end
         [:op_asgn1, @receiver.to_sexp, arguments, op, @value.to_sexp]
       end
     end
@@ -299,7 +306,14 @@ module Rubinius::ToolSet.current::TS
       end
 
       def to_sexp
-        op = @op == :or ? :"||" : :"&&"
+        case @op
+        when :or
+          op = :"||"
+        when :and
+          op = :"&&"
+        else
+          op = @op
+        end
         [:op_asgn2, @receiver.to_sexp, :"#{@name}=", op, @value.to_sexp]
       end
     end
