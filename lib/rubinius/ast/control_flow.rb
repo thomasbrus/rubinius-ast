@@ -542,6 +542,10 @@ module Rubinius::ToolSet.current::TS
         @value = expr || NilLiteral.new(line)
       end
 
+      def block=(node)
+        @value.block = node if @value
+      end
+
       def jump_error(g, name)
         g.push_rubinius
         g.push_literal name
