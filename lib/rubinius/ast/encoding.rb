@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius::ToolSet.current::ToolSet
+module Rubinius::ToolSets.current::ToolSet
   module AST
     class Encoding < Node
       attr_accessor :name
