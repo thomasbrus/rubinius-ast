@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius::ToolSet.current::TS
+module Rubinius::ToolSet.current::ToolSet
   module AST
     class SplatValue < Node
       attr_accessor :value
