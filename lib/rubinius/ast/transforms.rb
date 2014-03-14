@@ -267,9 +267,9 @@ module Rubinius::ToolSets.current::ToolSet
         g.dup
 
         if @privately
-          g.check_serial_private :new, KernelMethodSerial
+          g.check_serial_private :new, Rubinius::CompiledCode::KernelMethodSerial
         else
-          g.check_serial :new, KernelMethodSerial
+          g.check_serial :new, Rubinius::CompiledCode::KernelMethodSerial
         end
         g.gif slow
 
