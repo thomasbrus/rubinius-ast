@@ -28,6 +28,10 @@ module Rubinius::ToolSets.current::ToolSet
         done.set!
       end
 
+      def defined(g)
+        g.push :nil
+      end
+
       def receiver_sexp
         nil
       end
@@ -328,6 +332,10 @@ module Rubinius::ToolSets.current::ToolSet
         done.set!
       end
 
+      def defined(g)
+        g.push :nil
+      end
+
       def to_sexp
         else_sexp = @else.kind_of?(NilLiteral) ? nil : @else.to_sexp
         [:if, @condition.to_sexp, @body.to_sexp, else_sexp]
@@ -403,6 +411,10 @@ module Rubinius::ToolSets.current::ToolSet
         g.break.set!
 
         g.pop_modifiers
+      end
+
+      def defined(g)
+        g.push :nil
       end
 
       def sexp_name
@@ -551,6 +563,10 @@ module Rubinius::ToolSets.current::ToolSet
         end
       end
 
+      def defined(g)
+        g.push :nil
+      end
+
       def sexp_name
         :break
       end
@@ -685,6 +701,10 @@ module Rubinius::ToolSets.current::ToolSet
         else
           g.ret
         end
+      end
+
+      def defined(g)
+        g.push :nil
       end
 
       def to_sexp
