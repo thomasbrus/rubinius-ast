@@ -703,7 +703,7 @@ module Rubinius::ToolSets.current::ToolSet
 
           if @post
             g.state.push_masgn
-            @post.body.each do |x|
+            @post.body.reverse_each do |x|
               g.dup
               g.send :pop, 0
               g.cast_array if x.kind_of? MultipleAssignment and x.left
