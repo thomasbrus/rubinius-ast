@@ -1,4 +1,4 @@
-module Rubinius::ToolSets.current::ToolSet
+module CodeTools
   module AST
     VERSION = "2.1.3"
   end
