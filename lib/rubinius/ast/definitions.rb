@@ -278,126 +278,11 @@ module CodeTools
     end
 
     class FormalArguments < Node
-      attr_accessor :names, :required, :optional, :defaults, :splat
+      attr_accessor :names, :required, :optional, :defaults, :splat,
+                    :post, :kwargs, :kwrest
       attr_reader :block_arg, :block_index
 
-      def initialize(line, args, defaults, splat)
-        @line = line
-        @defaults = nil
-        @block_arg = nil
-        @block_index = nil
-
-        if defaults
-          defaults = DefaultArguments.new line, defaults
-          @defaults = defaults
-          @optional = defaults.names
-
-          stop = defaults.names.first
-          last = args.each_with_index { |a, i| break i if a == stop }
-          @required = args[0, last]
-        else
-          @required = args.dup
-          @optional = []
-        end
-
-        if splat.kind_of? Symbol
-          args << splat
-        elsif splat
-          splat = :*
-          args << splat
-        end
-        @names = args
-        @splat = splat
-      end
-
-      def block_arg=(node)
-        @names << node.name
-
-        @block_index = @names.length - 1
-        @block_arg = node
-      end
-
-      def bytecode(g)
-        g.state.check_for_locals = false
-        map_arguments g.state.scope
-
-        @defaults.bytecode(g) if @defaults
-        @block_arg.bytecode(g) if @block_arg
-        g.state.check_for_locals = true
-      end
-
-      def required_args
-        @required.size
-      end
-
-      alias_method :arity, :required_args
-
-      def post_args
-        0
-      end
-
-      def total_args
-        @required.size + @optional.size
-      end
-
-      def splat_index
-        if @splat
-          index = @names.size
-          index -= 1 if @block_arg
-          index -= 1 if @splat.kind_of? Symbol
-          index
-        end
-      end
-
-      def map_arguments(scope)
-        @required.each { |arg| scope.new_local arg }
-        @defaults.map_arguments scope if @defaults
-        scope.new_local @splat if @splat.kind_of? Symbol
-        scope.assign_local_reference @block_arg if @block_arg
-      end
-
-      def to_actual(line)
-        arguments = ActualArguments.new line
-
-        last = -1
-        last -= 1 if @block_arg and @block_arg.name == names[last]
-        last -= 1 if @splat == names[last]
-
-        arguments.array = @names[0..last].map { |name| LocalVariableAccess.new line, name }
-
-        if @splat.kind_of? Symbol
-          arguments.splat = SplatValue.new(line, LocalVariableAccess.new(line, @splat))
-        end
-
-        arguments
-      end
-
-      def to_sexp
-        sexp = [:args]
-
-        @required.each { |x| sexp << x }
-        sexp += @defaults.names if @defaults
-
-        if @splat == :*
-          sexp << :*
-        elsif @splat
-          sexp << :"*#{@splat}"
-        end
-
-        sexp += @post if @post
-
-        sexp << :"&#{@block_arg.name}" if @block_arg
-
-        sexp << [:block] + @defaults.to_sexp if @defaults
-
-        sexp
-      end
-    end
-
-    class FormalArguments19 < FormalArguments
-      attr_accessor :post
-
-      def initialize(line, required, optional, splat, post, block)
+      def initialize(line, required, optional, splat, post, kwargs, kwrest, block)
         @line = line
         @defaults = nil
         @block_arg = nil
@@ -462,9 +347,18 @@ module CodeTools
         @names = names
       end
 
+      def block_arg=(node)
+        @names << node.name
+
+        @block_index = @names.length - 1
+        @block_arg = node
+      end
+
       def required_args
         @required.size + @post.size
       end
+
+      alias_method :arity, :required_args
 
       def post_args
         @post.size
@@ -510,7 +404,6 @@ module CodeTools
         end
 
         scope.assign_local_reference @block_arg if @block_arg
-
       end
 
       def bytecode(g)
@@ -534,6 +427,42 @@ module CodeTools
           end
         end
         g.state.check_for_locals = true
+      end
+      def to_actual(line)
+        arguments = ActualArguments.new line
+
+        last = -1
+        last -= 1 if @block_arg and @block_arg.name == names[last]
+        last -= 1 if @splat == names[last]
+
+        arguments.array = @names[0..last].map { |name| LocalVariableAccess.new line, name }
+
+        if @splat.kind_of? Symbol
+          arguments.splat = SplatValue.new(line, LocalVariableAccess.new(line, @splat))
+        end
+
+        arguments
+      end
+
+      def to_sexp
+        sexp = [:args]
+
+        @required.each { |x| sexp << x }
+        sexp += @defaults.names if @defaults
+
+        if @splat == :*
+          sexp << :*
+        elsif @splat
+          sexp << :"*#{@splat}"
+        end
+
+        sexp += @post if @post
+
+        sexp << :"&#{@block_arg.name}" if @block_arg
+
+        sexp << [:block] + @defaults.to_sexp if @defaults
+
+        sexp
       end
     end
 
