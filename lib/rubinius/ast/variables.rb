@@ -702,6 +702,8 @@ module CodeTools
           end
 
           if @post
+            g.send(:dup, 0)
+
             g.state.push_masgn
             @post.body.reverse_each do |x|
               g.dup
